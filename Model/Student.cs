@@ -12,7 +12,7 @@ namespace UniversityTuitionPayment.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string StudentCode { get; set; }
@@ -24,8 +24,7 @@ namespace UniversityTuitionPayment.Model
         public string FullName { get; set; }
         
         [Required]
-        [ForeignKey("University")]
-        public University university { get; set; }
+        public int universityId { get; set; }
 
         [Required]
         public StudentStatusType StudentStatus { get; set; }    
@@ -36,5 +35,8 @@ namespace UniversityTuitionPayment.Model
             Passive,
             OnPayment
         }
+
+        [ForeignKey("universityId")]
+        public University university { get; set; }
     }
 }

@@ -8,16 +8,16 @@ namespace UniversityTuitionPayment.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public Term CurrentTerm { get; set; }
+        public int currentTermId { get; set; }
 
         [Required]
-        public Student student { get; set; }
+        public int studentId { get; set; }
 
         [Required]
-        public University university{ get; set; }
+        public int universityId { get; set; }
 
         [Required]
         public double TuitionTotal { get; set; }
@@ -38,5 +38,13 @@ namespace UniversityTuitionPayment.Model
             Failed
         }
 
+        [ForeignKey("currentTermId")]
+        public Term currentTerm { get; set; }
+
+        [ForeignKey("studentId")]
+        public Student student { get; set; }
+
+        [ForeignKey("universityId")]
+        public University university { get; set; }
     }
 }

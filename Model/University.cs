@@ -10,7 +10,7 @@ namespace UniversityTuitionPayment.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string UniversityCode { get; set; }

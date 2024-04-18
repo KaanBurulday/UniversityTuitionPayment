@@ -1,67 +1,72 @@
-﻿using UniversityTuitionPayment.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using UniversityTuitionPayment.Context;
+using UniversityTuitionPayment.Model;
 
 namespace UniversityTuitionPayment.Source.Db
 {
     public class UniversityAccess
     {
-        private static List<University> sampleUniversities = new List<University>(new University[]
+        private UniversityTuitionPaymentContext _context;
+        
+        public UniversityAccess(UniversityTuitionPaymentContext context)
         {
-            new University() { UniversityName="University 1", Students = new List<Student>(), TuitionFee = 30000 },
-            new University() { UniversityName="University 2", Students = new List<Student>(), TuitionFee = 20000 },
-            new University() { UniversityName="University 3", Students = new List<Student>(), TuitionFee = 15000 }
-        });
-
-        public List<University> GetUniversities()
-        {
-            return sampleUniversities;
+            _context = context;
         }
 
-        public University GetUniversityById(Guid id)
+        public IEnumerable<University> GetUniversities()
         {
-            return sampleUniversities.Find(u => u.Id == id);
+            return _context.Universities;
         }
 
-        public List<Student> GetStudentsOfUniversityById(Guid id)
+        public University GetUniversity(int id)
         {
-            return GetUniversityById(id).Students;
+            return _context.Universities.FirstOrDefault(u => u.Id == id);
         }
 
-        public void insertUniversity(University university)
+        public int insertUniversity(University university)
         {
             validateUniversity(university);
-            sampleUniversities.Add(university);
+            _context.Universities.Add(university);
+            return _context.SaveChanges();
         }
 
-        public void updateUniversity(University university)
+        public int updateUniversity(University university)
         {
             validateUniversity(university);
-            University universityOld = GetUniversityById(university.Id);
+            University universityOld = GetUniversity(university.Id);
             if (universityOld != null)
             {
                 universityOld.UniversityName = university.UniversityName;   
                 universityOld.Students = university.Students;
                 universityOld.TuitionFee = university.TuitionFee;
+                return _context.SaveChanges();
             }
+            return 0;
         }
 
-        public void updateUniversityTuitionFee(University university)
+        public int deleteUniversity(int id)
         {
-            validateUniversity(university);
-            University universityOld = GetUniversityById(university.Id);
-            if (universityOld != null)
+            University data = GetUniversity(id);
+            if(data != null)
             {
-                universityOld.TuitionFee = university.TuitionFee;
+                _context.Universities.Remove(data);
+                return _context.SaveChanges();
             }
+            return 0;
         }
 
-        public int deleteCourse(Guid id)
+        public int deleteUniversities()
         {
-            return sampleUniversities.RemoveAll(u => u.Id == id);
+            foreach (var entity in _context.Universities)
+            {
+                _context.Universities.Remove(entity);
+            }
+            return _context.SaveChanges();   
         }
 
         private void validateUniversity(University university)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
     }
 }

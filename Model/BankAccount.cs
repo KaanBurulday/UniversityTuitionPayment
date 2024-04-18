@@ -11,7 +11,7 @@ namespace UniversityTuitionPayment.Model
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         
         [Required]
         public string AccountCode { get; set; }
@@ -21,5 +21,6 @@ namespace UniversityTuitionPayment.Model
         
         [Required]
         public string TCKimlik { get; set; }
+
     }
 }
