@@ -17,6 +17,7 @@ namespace UniversityTuitionPayment.Controllers
             _bankAccountService = bankAccountService;
         }
 
+
         [HttpGet]
         public List<BankAccountDto> Get()
         {
